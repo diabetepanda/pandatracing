@@ -685,7 +685,7 @@
         <div class="legend">顏色約定先講清楚：本頁 <b>🔴 紅＝對資產不利（利空）</b>、<b>🟢 綠＝對資產有利（利多）</b>、🟡 黃＝中性。這跟台股「紅漲綠跌」的習慣<b>剛好相反</b>，看的時候請以文字判斷為準。</div>
 
         <div class="px-goto">
-          <span><b>新增「價格」分頁：</b>指數、外匯、加密貨幣、個股、商品的最新價格、近三個月高低點與偏多／偏空傾向；加密貨幣與外匯由頁面即時抓取，指數／個股／商品為每日兩更的收盤快照（<b>數據可能有延遲</b>）。</span>
+          <span><b>新增「價格」分頁：</b>指數、外匯、加密貨幣、個股、商品的最新價格、近三個月高低點與偏多／偏空傾向；全部標的皆由頁面即時抓取（指數／個股／商品來源為 TradingView），抓不到時顯示每日兩更的收盤快照（<b>數據可能有延遲</b>）。</span>
           <button type="button" id="gotoPrices">看價格 →</button>
         </div>
 
@@ -847,10 +847,10 @@
       <!-- ================= 價格 ================= -->
       <section id="sec-prices" role="tabpanel" hidden>
         <h2>標的價格 · 近三個月高低點與傾向</h2>
-        <p class="lede">全部 36 個標的直接列在下方：加密貨幣與外匯由瀏覽器即時抓取（<b>數據可能有延遲</b>），指數／個股／商品為每日 08:00／20:00 寫入的最近收盤快照；沒開盤或來源抓不到時顯示快照並標收盤日期，不會空白。漲跌以<b>綠漲、紅跌</b>標示。<b>點任一張卡</b>可打開該標的的 K 線圖與最近相關新聞；台股 6 標的與 SK 海力士因其交易所不在 TradingView 免費嵌入元件的供應範圍，改顯示 Yahoo 日線自繪日 K（每日兩更時更新數據）。傾向的判斷依據與計算規則放在本頁最下方補充。</p>
+        <p class="lede">全部 36 個標的直接列在下方：加密貨幣、外匯、指數、個股、商品皆由瀏覽器即時抓取（<b>數據可能有延遲</b>）；指數／個股／商品的即時價來源為 TradingView，各交易所延遲不一，台股與美股通常約 15 分鐘內、亞股接近即時，實際以各卡標示的抓取時間為準。抓不到或沒開盤時顯示每日 08:00／20:00 寫入的最近收盤快照並標收盤日期，不會空白。漲跌以<b>綠漲、紅跌</b>標示。<b>點任一張卡</b>可打開該標的的 K 線圖與最近相關新聞；台股 6 標的與 SK 海力士因其交易所不在 TradingView 免費嵌入元件的供應範圍，改顯示 Yahoo 日線自繪日 K（每日兩更時更新數據）。傾向的判斷依據與計算規則放在本頁最下方補充。</p>
 
         <div class="px-status">
-          <span id="pxStatus">加密貨幣與外匯開啟本頁後自動即時抓取；指數／個股／商品顯示最近收盤快照（每日 08:00／20:00 更新）。</span>
+          <span id="pxStatus">全部標的開啟本頁後自動即時抓取（指數／個股／商品來源為 TradingView）；抓不到時顯示最近收盤快照（每日 08:00／20:00 更新）。</span>
           <button class="px-refresh" type="button" id="pxRefresh">重新整理價格</button>
         </div>
 
@@ -874,7 +874,7 @@
         <details class="fold fold-src">
           <summary>資料來源與說明</summary>
           <div class="fold-body">
-        <p class="stamp" style="margin-top:14px;">價格來源：指數／個股／商品——Yahoo Finance 公開圖表日線，於每日兩更時在伺服器端抓取寫入頁面（Yahoo 不開放瀏覽器跨域讀取，故不做頁面端即時抓取）；加密貨幣——Kraken 公開介面為主來源（缺幣自動切 OKX／Bitget 補、CoinGecko 最後備援），由瀏覽器每 2 分鐘抓取，每張卡標示該筆價格的實際抓取時間，延遲目標 5 分鐘內；外匯——Frankfurter（歐洲央行參考匯率）與 ExchangeRate-API（台幣）。任一即時來源未回應時，該卡顯示最近收盤快照（本次快照抓取時間：2026-11-16 08:20 台北時間，36 個標的皆有最近交易日收盤價），不會用估計值補上。</p>
+        <p class="stamp" style="margin-top:14px;">價格來源：加密貨幣——Kraken 公開介面為主來源（缺幣自動切 OKX／Bitget 補、CoinGecko 最後備援），由瀏覽器每 2 分鐘抓取，每張卡標示該筆價格的實際抓取時間，延遲目標 5 分鐘內；外匯——Frankfurter（歐洲央行參考匯率）與 ExchangeRate-API（台幣）；指數／個股／商品——TradingView 公開報價介面，由瀏覽器每 2 分鐘抓取，只覆蓋現價與日漲跌幅，各交易所延遲不一（台股與美股通常約 15 分鐘內、亞股接近即時），每張卡標示實際抓取時間。近三個月高低點與傾向為每日兩更時以 Yahoo Finance 公開圖表日線在伺服器端計算的快照值，不隨即時價變動。任一即時來源未回應時，該卡顯示最近收盤快照（本次快照抓取時間：2026-11-16 08:20 台北時間，36 個標的皆有最近交易日收盤價），不會用估計值補上。</p>
         <h2>補充：偏多／偏空傾向的判斷依據</h2>
         <div class="note-box">
           <b>傾向怎麼算（公開機械規則，不看新聞、不靠感覺）：</b>
@@ -883,7 +883,7 @@
             <li>合計 <b>≥ +2 分＝偏多、≤ −2 分＝偏空、其餘＝中性</b>。每張卡都會附一句依據（區間位置、均線、近 20 日漲跌）。</li>
             <li>這是<b>依歷史走勢推導的技術傾向，不是預測、更不是保證</b>，也不構成投資建議。外匯的傾向是針對「美元兌該貨幣匯率」本身：匯率上升＝美元走強。</li>
             <li>高低點以<b>同一來源的近三個月日線</b>計算並標日期（指數／個股／商品用日線高低價，加密貨幣與外匯用日收盤／每日參考值）；抓不到歷史的標的會明寫「暫無三個月數據」。</li>
-            <li><b>休市規則：</b>指數／個股／商品一律顯示<b>最近一個交易日的收盤快照</b>，只在每日 08:00／20:00 更新時刷新；休市市場保留原快照與原日期，不重抓、不改日期，卡片標示「休市 · 最近收盤」與收盤日期（開市時段依當地平日交易時間判斷，國定假日可能不同）。加密貨幣是 24 小時市場，不受此限，照常每 2 分鐘由瀏覽器更新；外匯為每日參考匯率。</li>
+            <li><b>休市規則：</b>指數／個股／商品的現價與日漲跌幅由瀏覽器每 2 分鐘向 TradingView 抓取覆蓋；休市時接口回傳最近一個交易日的收盤價，覆蓋後與快照一致。抓不到時顯示<b>最近一個交易日的收盤快照</b>（每日 08:00／20:00 更新時刷新），卡片標示「休市 · 最近收盤」與收盤日期（開市時段依當地平日交易時間判斷，國定假日可能不同）。近三個月高低點與傾向一律為快照值，不隨即時價變動。加密貨幣是 24 小時市場，不受此限，照常每 2 分鐘由瀏覽器更新；外匯為每日參考匯率。</li>
           </ul>
         </div>
           </div>
@@ -891,7 +891,7 @@
       </section>
 
       <footer>
-        資料來源：<a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED（聖路易斯聯儲）</a>、ISM 製造業／服務業報告、<a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" target="_blank" rel="noopener">CME FedWatch</a>、BLS、BEA、聯準會；新聞欄各則均附原始來源連結。本頁每日台北時間 08:00／20:00 兩更：指標數值與走勢圖於更新時重新自 FRED 公開序列（fredgraph）擷取計算，本次抓取時間 2026-11-16 08:20（台北）；ISM 與 FedWatch 機率以最近可得的官方／公開讀數為準，抓不到即標示暫無數據。即時數值以各官方來源為準。「價格」分頁的加密貨幣與外匯由瀏覽器直接抓取 Kraken／OKX／Bitget／CoinGecko、Frankfurter（歐洲央行）與 ExchangeRate-API 公開資料；指數／個股／商品因 Yahoo Finance 不開放瀏覽器跨域讀取，改以每日兩更寫入的最近收盤快照呈現（本次快照抓取時間 2026-11-16 08:20 台北）。免費來源數據可能有延遲。本頁內容為資訊整理與判讀框架，不構成投資建議。
+        資料來源：<a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED（聖路易斯聯儲）</a>、ISM 製造業／服務業報告、<a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" target="_blank" rel="noopener">CME FedWatch</a>、BLS、BEA、聯準會；新聞欄各則均附原始來源連結。本頁每日台北時間 08:00／20:00 兩更：指標數值與走勢圖於更新時重新自 FRED 公開序列（fredgraph）擷取計算，本次抓取時間 2026-11-16 08:20（台北）；ISM 與 FedWatch 機率以最近可得的官方／公開讀數為準，抓不到即標示暫無數據。即時數值以各官方來源為準。「價格」分頁的加密貨幣與外匯由瀏覽器直接抓取 Kraken／OKX／Bitget／CoinGecko、Frankfurter（歐洲央行）與 ExchangeRate-API 公開資料；指數／個股／商品由瀏覽器直接抓取 TradingView 公開報價，覆蓋現價與日漲跌幅（各交易所延遲不一），抓不到時顯示每日兩更寫入的最近收盤快照（本次快照抓取時間 2026-11-16 08:20 台北），近三個月高低點與傾向為快照值。免費來源數據可能有延遲。本頁內容為資訊整理與判讀框架，不構成投資建議。
       </footer>
     </main>
 
@@ -1648,7 +1648,7 @@
       var pxLastAn = {};
       /* 即時抓取狀態：只有真的抓成功才記成功時間；失敗逐卡標記，不假裝有在更新 */
       var pxLiveFail = {};
-      var pxLiveState = { cryptoOkAt: null, cryptoFailAt: null, fxOkAt: null, fxFailAt: null };
+      var pxLiveState = { cryptoOkAt: null, cryptoFailAt: null, fxOkAt: null, fxFailAt: null, tvOkAt: null, tvFailAt: null };
       var pxCryptoSkip = false; /* 加密全失敗時隔一輪再試，降低免費額度限流壓力 */
       var pxLastHtml = {}; /* 每張卡上次畫出的內容，沒變就不重畫，避免頁面跳動 */
       var PX_SNAP_TIME = "2026-11-16 08:20（台北時間）";
@@ -1787,7 +1787,9 @@
         if (s.cryptoOkAt) txt += "加密貨幣即時價：最近一次成功抓取 " + pxTimeStr(s.cryptoOkAt) + "（台北時間），每 2 分鐘重抓。";
         if (s.cryptoFailAt && (!s.cryptoOkAt || s.cryptoFailAt > s.cryptoOkAt)) txt += "⚠ 加密貨幣即時抓取失敗（" + pxTimeStr(s.cryptoFailAt) + " 起），失敗的幣目前顯示快照價（" + PX_SNAP_TIME + " 抓取），系統會自動間隔重試。";
         if (!s.cryptoOkAt && !s.cryptoFailAt) txt += "加密貨幣即時價：尚未完成第一次抓取，目前顯示快照價（" + PX_SNAP_TIME + " 抓取）。";
-        txt += " 指數／個股／商品：顯示最近收盤快照（" + PX_SNAP_TIME + " 抓取，每日 08:00／20:00 隨頁面更新刷新）。";
+        if (s.tvOkAt) txt += " 指數／個股／商品即時價（來源 TradingView）：最近一次成功抓取 " + pxTimeStr(s.tvOkAt) + "（台北時間），每 2 分鐘重抓；抓不到的標的顯示最近收盤快照（" + PX_SNAP_TIME + " 抓取）。";
+        if (s.tvFailAt && (!s.tvOkAt || s.tvFailAt > s.tvOkAt)) txt += " ⚠ 指數／個股／商品即時抓取失敗（" + pxTimeStr(s.tvFailAt) + " 起），失敗的標的目前顯示快照價，系統會自動重試。";
+        if (!s.tvOkAt && !s.tvFailAt) txt += " 指數／個股／商品：尚未完成第一次即時抓取，目前顯示最近收盤快照（" + PX_SNAP_TIME + " 抓取）。";
         if (s.fxOkAt) txt += " 外匯：最近一次成功抓取 " + pxTimeStr(s.fxOkAt) + "（每日參考匯率）。";
         if (s.fxFailAt && (!s.fxOkAt || s.fxFailAt > s.fxOkAt)) txt += " ⚠ 外匯即時抓取失敗（" + pxTimeStr(s.fxFailAt) + " 起），目前顯示快照。";
         txt += " 數據可能有延遲。";
@@ -1854,17 +1856,66 @@
           o.priceTxt = fmt(s.p) + (s.cur ? '<span class="unit"> ' + s.cur + '</span>' : "");
           o.chgTxt = c ? c.txt + "（日）" : null; o.chgCls = c ? c.cls : "flat";
           o.meta = (open ? "開市中 · 顯示最近收盤快照 " : "休市 · 最近收盤 ") + dTxt;
-          o.src = "快照來源：Yahoo Finance 公開圖表日線（抓取於 " + PX_SNAP_TIME + "）· 每日 08:00／20:00 隨頁面更新刷新 · 高低點以日線高低價計";
+          o.src = "快照來源：Yahoo Finance 公開圖表日線（抓取於 " + PX_SNAP_TIME + "）· 每日 08:00／20:00 隨頁面更新刷新 · 高低點以日線高低價計 · 開啟本頁後會再向 TradingView 確認即時價";
         }
         if (pxLiveFail[id]) o.src += " · ⚠ 即時抓取失敗，目前顯示快照";
         o.an = { hi: s.hi, lo: s.lo, hiT: new Date(s.hiD + "T12:00:00").getTime(), loT: new Date(s.loD + "T12:00:00").getTime(), label: s.label, cls: s.cls, basis: s.basis };
         pxRender(id, o);
       }
 
-      /* ---------- 指數／個股／商品：純收盤快照（不做瀏覽器抓取） ----------
-         Yahoo chart API 實測：直連回 429 且不回 Access-Control-Allow-Origin，瀏覽器永遠讀不到；
-         兩條公開代理（allorigins／codetabs）實測分別回 408 逾時與 522 錯誤。故此組改由每日
-         08:00／20:00 兩更在伺服器端抓取 Yahoo 日線寫入 PX_SNAP，頁面只渲染快照（見 pxSnapRender）。 */
+      /* ---------- 指數／個股／商品：收盤快照為底＋TradingView 即時覆蓋層 ----------
+         快照層：Yahoo chart API 實測不回 Access-Control-Allow-Origin，瀏覽器讀不到，故三個月
+         高低點與傾向仍由每日 08:00／20:00 兩更在伺服器端抓取 Yahoo 日線寫入 PX_SNAP（見 pxSnapRender）。
+         覆蓋層：TradingView scanner 接口實測回 Access-Control-Allow-Origin，瀏覽器可直抓；
+         比照加密貨幣模式——只覆蓋現價與日漲跌幅、每張卡標實際抓取時間、抓不到就完整保留快照。 */
+      var PX_TV_LIVE = {
+        spx:"SP:SPX", ixic:"NASDAQ:IXIC", dji:"DJ:DJI", n225:"TVC:NI225", ks11:"KRX:KOSPI",
+        sse:"SSE:000001", twii:"TWSE:IX0001", hsi:"TVC:HSI",
+        spcx:"NASDAQ:SPCX", tsla:"NASDAQ:TSLA", hynix:"KRX:000660", sndk:"NASDAQ:SNDK",
+        "2330":"TWSE:2330", "2317":"TWSE:2317", "2454":"TWSE:2454", "2308":"TWSE:2308", "2382":"TWSE:2382",
+        gold:"TVC:GOLD", oil:"NYMEX:CL1!"
+      };
+      function pxRenderTvLive(id, price, chgPct, srcName){
+        var s = PX_SNAP[id];
+        if (!s || !isFinite(price)) return;
+        var fmt = s.dec < 0 ? pxPriceFmt : function(v){ return pxNum(v, s.dec); };
+        var chg = pxChg(chgPct);
+        delete pxLiveFail[id];
+        pxRender(id, {
+          priceTxt: fmt(price) + (s.cur ? '<span class="unit"> ' + s.cur + '</span>' : ""),
+          chgTxt: chg ? chg.txt + "（日）" : null, chgCls: chg ? chg.cls : "flat",
+          meta: "即時價 · 抓取於 " + pxTimeStr(new Date()) + "（台北時間）",
+          fmt: fmt,
+          src: "來源：" + srcName + " · 三個月高低點與傾向沿用快照（" + PX_SNAP_TIME + " 計算）"
+        });
+      }
+      function pxLoadTvLive(){
+        var total = 0, okCount = 0, settled = 0;
+        function settle(ok){
+          settled++; if (ok) okCount++;
+          if (settled < total) return;
+          if (okCount > 0){ pxLiveState.tvOkAt = new Date(); pxLiveState.tvDown = false; }
+          else if (!pxLiveState.tvDown){ pxLiveState.tvFailAt = new Date(); pxLiveState.tvDown = true; } /* 全失敗只在狀態轉換時標記一次 */
+          pxSetStatus();
+        }
+        Object.keys(PX_TV_LIVE).forEach(function(id){
+          total++;
+          var sym = PX_TV_LIVE[id];
+          pxFetch("https://scanner.tradingview.com/symbol?symbol=" + encodeURIComponent(sym) + "&fields=close,change&no_404=true", 8000)
+            .then(function(j){
+              var price = j ? parseFloat(j.close) : NaN;
+              var chg = j ? parseFloat(j.change) : NaN;
+              if (!isFinite(price)) throw new Error("no price");
+              pxRenderTvLive(id, price, isFinite(chg) ? chg : null, "TradingView 即時報價");
+              settle(true);
+            })
+            .catch(function(){
+              pxLiveFail[id] = true;
+              pxRender(id, { src: "來源：TradingView 即時報價本次未回應，顯示快照" });
+              settle(false);
+            });
+        });
+      }
 
       /* ---------- 加密貨幣即時價：Kraken 為主（一次請求抓全部 9 幣、限流寬、跨域友善），
          缺幣再平行向 OKX／Bitget 補，最後才用 CoinGecko 備援（免費額度易限流） ----------
@@ -2031,10 +2082,9 @@
         document.getElementById("pxCrypto").innerHTML = PX_CRYPTO.map(function(c){ return pxCardShell(c.cg, c.name, c.sym + "/USD"); }).join("");
       }
       function pxLoadAll(){
-        /* 指數／個股／商品不做瀏覽器抓取：Yahoo 不回跨域標頭（實測另回 429）、公開代理也實測逾時／錯誤，
-           瀏覽器端注定失敗；這 19 張改純顯示每日兩更在伺服器端抓取寫入的收盤快照 */
         pxLoadFx();
         pxLoadCryptoPrices().catch(function(){});
+        pxLoadTvLive();
       }
       function pxInit(){
         if (pxStarted) return;
@@ -2048,7 +2098,8 @@
         setTimeout(pxLoadAll, 600);
         pxTimers.push(setInterval(function(){
           pxLoadCryptoPrices().catch(function(){});
-        }, 120000)); /* 每 2 分鐘一輪，抓取本身為即時價，延遲目標 5 分鐘內 */
+          pxLoadTvLive();
+        }, 120000)); /* 每 2 分鐘一輪（加密＋指數／個股／商品共用），抓取本身為即時價，延遲目標 5 分鐘內 */
         pxTimers.push(setInterval(pxLoadFx, 600000));
       }
       document.querySelector('[data-tab="prices"]').addEventListener("click", pxInit);

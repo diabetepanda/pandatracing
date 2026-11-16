@@ -562,6 +562,11 @@
         .hist-modal .hist-stats{ grid-template-columns:1fr; }
       }
 
+      /* ---------- 留言（giscus） ---------- */
+      .giscus-wrap{ margin-top:2px; }
+      .giscus, .giscus-frame{ width:100%; }
+      .giscus-frame{ border:none; color-scheme:auto; }
+
       /* ---------- 名詞小辭典：虛線標記＋白話解釋框 ---------- */
       .gloss{ border-bottom:1px dashed var(--muted); cursor:help; }
       #glossTip{
@@ -586,6 +591,7 @@
           <button class="tab" role="tab" data-tab="calendar" aria-selected="false">日曆</button>
           <button class="tab" role="tab" data-tab="news" aria-selected="false">新聞</button>
           <button class="tab" role="tab" data-tab="prices" aria-selected="false">價格</button>
+          <button class="tab" role="tab" data-tab="comments" aria-selected="false">留言</button>
         </nav>
         <button class="theme-btn" id="themeBtn" type="button" aria-label="切換深色或淺色模式">
           <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
@@ -936,6 +942,19 @@
             <li><b>休市規則：</b>指數／個股／商品的現價與日漲跌幅由瀏覽器每 2 分鐘向 TradingView 抓取覆蓋；休市時接口回傳最近一個交易日的收盤價，覆蓋後與快照一致。抓不到時顯示<b>最近一個交易日的收盤快照</b>（每日 08:00／20:00 更新時刷新），卡片標示「休市 · 最近收盤」與收盤日期（開市時段依當地平日交易時間判斷，國定假日可能不同）。近三個月高低點與傾向一律為快照值，不隨即時價變動。加密貨幣是 24 小時市場，不受此限，照常每 2 分鐘由瀏覽器更新；外匯為每日參考匯率。</li>
           </ul>
         </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ================= 留言 ================= -->
+      <section id="sec-comments" role="tabpanel" hidden>
+        <h2>留言與建議</h2>
+        <p class="lede">歡迎在這裡對本站的內容留言，也歡迎告訴站長你希望改進哪些地方。所有留言都會公開顯示在這一頁。發言需要登入 GitHub 帳號（註冊免費），讀留言不用登入。不當留言站長會刪除。</p>
+        <div class="giscus-wrap" id="giscusWrap"></div>
+        <details class="fold fold-src">
+          <summary>資料來源與說明</summary>
+          <div class="fold-body">
+        <p style="margin:10px 0 0; font-size:15px; color:var(--ink2);">留言由 GitHub Discussions 提供，留言內容存放在本站的 GitHub 倉庫（<a href="https://github.com/diabetepanda/pandatracing/discussions" target="_blank" rel="noopener">diabetepanda/pandatracing</a>）的討論區。</p>
           </div>
         </details>
       </section>
@@ -1682,9 +1701,10 @@
         tab.addEventListener("click", function(){
           tabs.forEach(function(t){ t.setAttribute("aria-selected","false"); });
           tab.setAttribute("aria-selected","true");
-          ["overview","data","calendar","news","prices"].forEach(function(k){
+          ["overview","data","calendar","news","prices","comments"].forEach(function(k){
             document.getElementById("sec-"+k).hidden = (k !== tab.getAttribute("data-tab"));
           });
+          if (tab.getAttribute("data-tab") === "comments") loadGiscus();
           window.scrollTo(0,0);
         });
       });
@@ -1708,11 +1728,49 @@
       themeBtn.addEventListener("click", function(){
         root.setAttribute("data-theme", isDark() ? "light" : "dark");
         syncThemeBtn();
+        syncGiscusTheme();
       });
       if (window.matchMedia){
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncThemeBtn);
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(){
+          syncThemeBtn();
+          syncGiscusTheme();
+        });
       }
       syncThemeBtn();
+
+      /* ============ 留言（giscus）：首次打開留言分頁才載入，主題跟隨本站深淺色 ============ */
+      var giscusLoaded = false;
+      function giscusTheme(){ return isDark() ? "dark" : "light"; }
+      function loadGiscus(){
+        if (giscusLoaded) return;
+        giscusLoaded = true;
+        var s = document.createElement("script");
+        s.src = "https://giscus.app/client.js";
+        s.setAttribute("data-repo", "diabetepanda/pandatracing");
+        s.setAttribute("data-repo-id", "R_kgDOVvbNtw");
+        s.setAttribute("data-category", "留言與建議");
+        s.setAttribute("data-category-id", "DIC_kwDOVvbNt84DLPe5");
+        s.setAttribute("data-mapping", "specific");
+        s.setAttribute("data-term", "網站留言與建議");
+        s.setAttribute("data-strict", "0");
+        s.setAttribute("data-reactions-enabled", "1");
+        s.setAttribute("data-emit-metadata", "0");
+        s.setAttribute("data-input-position", "top");
+        s.setAttribute("data-theme", giscusTheme());
+        s.setAttribute("data-lang", "zh-TW");
+        s.setAttribute("data-loading", "lazy");
+        s.crossOrigin = "anonymous";
+        s.async = true;
+        document.getElementById("giscusWrap").appendChild(s);
+      }
+      function syncGiscusTheme(){
+        var frame = document.querySelector("iframe.giscus-frame");
+        if (!frame || !frame.contentWindow) return;
+        frame.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: giscusTheme() } } },
+          "https://giscus.app"
+        );
+      }
     </script>
 
     <script>
